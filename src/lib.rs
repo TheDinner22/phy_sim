@@ -67,8 +67,22 @@ struct Vector {
     tip: Point,
 }
 
+impl Vector {
+    fn serialize(&self) -> (i32, i32) {
+        (self.tip.x - self.terminal.x, self.tip.y - self.terminal.y)
+    }
+
+    fn magnitude(&self) -> f32 {
+        let (a,b) = self.serialize();
+        let magnitude_squared = a + b;
+        (magnitude_squared as f32).sqrt()
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn it_works() {
         let result = 2 + 2;
