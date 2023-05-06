@@ -1,3 +1,5 @@
+use std::ops::{Add, Sub};
+
 trait Distance {
     // distance between here and somewhere else
     // NOT optimized in the slightest and is terrible
@@ -30,6 +32,7 @@ trait Distance {
     fn points(&self) -> Vec<&Point>;
 }
 
+#[derive(Default, Clone, Copy)]
 pub struct TwoDObject {
     position: Point,
     velocity: Vector,
@@ -37,7 +40,7 @@ pub struct TwoDObject {
 }
 
 // TODO what about an N-dim point?
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 struct Point {
     x: i32,
     y: i32,
@@ -60,8 +63,24 @@ impl Distance for Point {
     }
 }
 
+impl Add for Point {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Point { x: self.x + rhs.x, y: self.y + rhs.y }
+    }
+}
+
+impl Sub for Point {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Point { x: self.x - rhs.x, y: self.y - rhs.y }
+    }
+}
+
 // TODO what about an N-dim vector?
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 struct Vector {
     terminal: Point,
     tip: Point,
@@ -76,6 +95,22 @@ impl Vector {
         let (a,b) = self.serialize();
         let magnitude_squared = a + b;
         (magnitude_squared as f32).sqrt()
+    }
+}
+
+impl Add for Vector {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Vector { terminal: self.terminal + rhs.terminal, tip: self.tip + rhs.tip }
+    }
+}
+
+impl Sub for Vector {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Vector { terminal: self.terminal - rhs.terminal, tip: self.tip - rhs.tip }
     }
 }
 
