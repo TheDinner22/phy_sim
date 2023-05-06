@@ -1,9 +1,3 @@
-// todos
-// mass?
-// collisions
-// gui
-// n dimensional
-
 use std::time::Instant;
 
 use my_first_phy::{TwoDObject, Point};
