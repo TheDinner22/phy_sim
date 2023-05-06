@@ -96,6 +96,16 @@ impl Vector {
         let magnitude_squared = a + b;
         (magnitude_squared as f32).sqrt()
     }
+
+    // TODO is this correct?
+    fn dot_produtct(&self, other: &Vector) -> i32 {
+        let (x1, y1) = self.serialize();
+        let (x2, y2) = other.serialize();
+
+        x1*x2 + y1*y2
+    }
+
+    fn cross_produtct(&self, other: &Vector) -> i32 { todo!() }
 }
 
 impl Add for Vector {
