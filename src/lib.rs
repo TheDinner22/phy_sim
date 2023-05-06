@@ -39,15 +39,23 @@ pub struct TwoDObject {
     acceleration: Vector,
 }
 
+impl TwoDObject {
+    // temp function that makes an object at pos with a velocity of 0'
+    // and an acceleration vector from (0,0) to temp
+    pub fn from_point_and_acceleration(pos: Point, temp: Point) -> Self {
+        TwoDObject { position: pos, velocity: Vector::default(), acceleration: Vector { terminal: Point::default(), tip: temp } }
+    }
+}
+
 // TODO what about an N-dim point?
 #[derive(Default, Clone, Copy)]
-struct Point {
+pub struct Point {
     x: i32,
     y: i32,
 }
 
 impl Point {
-    fn new(x: i32, y: i32) -> Self {
+    pub fn new(x: i32, y: i32) -> Self {
         Point { x, y }
     }
 
@@ -81,7 +89,7 @@ impl Sub for Point {
 
 // TODO what about an N-dim vector?
 #[derive(Default, Clone, Copy)]
-struct Vector {
+pub struct Vector {
     terminal: Point,
     tip: Point,
 }
