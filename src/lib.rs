@@ -33,7 +33,7 @@ trait Distance {
     fn points(&self) -> Vec<&Point>;
 }
 
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone, Copy, Debug)]
 pub struct TwoDObject {
     position: Point,
     velocity: Vector,
@@ -58,7 +58,7 @@ impl TwoDObject {
 }
 
 // TODO what about an N-dim point?
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone, Copy, Debug)]
 pub struct Point {
     x: f64,
     y: f64,
@@ -111,7 +111,7 @@ impl Mul<f64> for Point {
 }
 
 // TODO what about an N-dim vector?
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone, Copy, Debug)]
 pub struct Vector {
     terminal: Point,
     tip: Point,
