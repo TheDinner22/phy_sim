@@ -18,7 +18,7 @@ trait Distance {
         ps.into_iter()
             .map(|(p1, p2)| {
                 let dist_squared = (p1.x - p2.x).pow(2) + (p1.y - p2.y).pow(2);
-                (dist_squared as f32).powf(0.5)
+                (dist_squared as f32).sqrt()
             })
             // cannot just use min :(
             .reduce(|acc, dist| if dist < acc { dist } else { acc })
