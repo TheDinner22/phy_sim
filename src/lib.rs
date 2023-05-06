@@ -49,7 +49,11 @@ impl TwoDObject {
 
     // TODO should this change pos or vel first?????
     pub fn tick(&mut self, secs_passed: f64) {
-
+        // update the pos via vel
+        self.position = self.position + self.velocity * secs_passed;
+        
+        // update the vel via acc
+        self.velocity = self.velocity + self.acceleration * secs_passed;
     }
 }
 
@@ -77,6 +81,16 @@ impl Add for Point {
 
     fn add(self, rhs: Self) -> Self::Output {
         Point { x: self.x + rhs.x, y: self.y + rhs.y }
+    }
+}
+
+impl Add<Vector> for Point {
+    type Output = Self;
+
+    fn add(self, rhs: Vector) -> Self::Output {
+        let (vec_x, vec_y) = rhs.serialize();
+        let vec_as_point = Point::new(vec_x, vec_y);
+        self + vec_as_point
     }
 }
 
