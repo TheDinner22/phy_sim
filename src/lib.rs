@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::{Add, Sub, Mul};
 
 trait Distance {
     // distance between here and somewhere else
@@ -47,7 +47,10 @@ impl TwoDObject {
         TwoDObject { position: pos, velocity: Vector::default(), acceleration: Vector { terminal: Point::default(), tip: temp } }
     }
 
-    pub fn tick(&mut self, secs_passed: f64) { todo!() }
+    // TODO should this change pos or vel first?????
+    pub fn tick(&mut self, secs_passed: f64) {
+
+    }
 }
 
 // TODO what about an N-dim point?
@@ -60,11 +63,6 @@ pub struct Point {
 impl Point {
     pub fn new(x: f64, y: f64) -> Self {
         Point { x, y }
-    }
-
-    fn shift(&mut self, x_offset: f64, y_offset: f64) {
-        self.x += x_offset;
-        self.y += y_offset;
     }
 }
 
@@ -87,6 +85,14 @@ impl Sub for Point {
 
     fn sub(self, rhs: Self) -> Self::Output {
         Point { x: self.x - rhs.x, y: self.y - rhs.y }
+    }
+}
+
+impl Mul<f64> for Point {
+    type Output = Self;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        Point { x: self.x * rhs, y: self.y * rhs }
     }
 }
 
@@ -132,6 +138,14 @@ impl Sub for Vector {
 
     fn sub(self, rhs: Self) -> Self::Output {
         Vector { terminal: self.terminal - rhs.terminal, tip: self.tip - rhs.tip }
+    }
+}
+
+impl Mul<f64> for Vector {
+    type Output = Self;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        Vector { terminal: self.terminal * rhs, tip: self.tip * rhs }
     }
 }
 
