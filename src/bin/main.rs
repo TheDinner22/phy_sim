@@ -22,10 +22,8 @@ impl Watch {
 
 fn main() {
     let mut clock = Watch::new();
-    let o = TwoDObject::from_point_and_acceleration(Point::new(1, 1), Point::new(0, -10));
+    let o = TwoDObject::from_point_and_acceleration(Point::new(1.0, 1.0), Point::new(0.0, -10.0));
     loop {
-        std::thread::sleep(std::time::Duration::new(1, 0));
         let delta_t = clock.delta_t();
-        println!("{}", delta_t);
     }
 }

@@ -4,7 +4,7 @@ trait Distance {
     // distance between here and somewhere else
     // NOT optimized in the slightest and is terrible
     // if self or other is empty, returns 0
-    fn distance(&self, other: impl Distance) -> f32 {
+    fn distance(&self, other: impl Distance) -> f64 {
         let p1s = self.points();
         let p2s = other.points();
 
@@ -19,12 +19,13 @@ trait Distance {
 
         ps.into_iter()
             .map(|(p1, p2)| {
-                let dist_squared = (p1.x - p2.x).pow(2) + (p1.y - p2.y).pow(2);
-                (dist_squared as f32).sqrt()
+                // cringe ass rust cant square an f64
+                let dist_squared = (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y);
+                (dist_squared as f64).sqrt()
             })
             // cannot just use min :(
             .reduce(|acc, dist| if dist < acc { dist } else { acc })
-            .unwrap_or(0f32)
+            .unwrap_or(0f64)
     }
 
     // need to be able to quantify lines, shapes, solids, etc. as
@@ -45,21 +46,23 @@ impl TwoDObject {
     pub fn from_point_and_acceleration(pos: Point, temp: Point) -> Self {
         TwoDObject { position: pos, velocity: Vector::default(), acceleration: Vector { terminal: Point::default(), tip: temp } }
     }
+
+    pub fn tick(&mut self, secs_passed: f64) { todo!() }
 }
 
 // TODO what about an N-dim point?
 #[derive(Default, Clone, Copy)]
 pub struct Point {
-    x: i32,
-    y: i32,
+    x: f64,
+    y: f64,
 }
 
 impl Point {
-    pub fn new(x: i32, y: i32) -> Self {
+    pub fn new(x: f64, y: f64) -> Self {
         Point { x, y }
     }
 
-    fn shift(&mut self, x_offset: i32, y_offset: i32) {
+    fn shift(&mut self, x_offset: f64, y_offset: f64) {
         self.x += x_offset;
         self.y += y_offset;
     }
@@ -95,25 +98,25 @@ pub struct Vector {
 }
 
 impl Vector {
-    fn serialize(&self) -> (i32, i32) {
+    fn serialize(&self) -> (f64, f64) {
         (self.tip.x - self.terminal.x, self.tip.y - self.terminal.y)
     }
 
-    fn magnitude(&self) -> f32 {
+    fn magnitude(&self) -> f64 {
         let (a,b) = self.serialize();
         let magnitude_squared = a + b;
-        (magnitude_squared as f32).sqrt()
+        (magnitude_squared as f64).sqrt()
     }
 
     // TODO is this correct?
-    fn dot_produtct(&self, other: &Vector) -> i32 {
+    fn dot_produtct(&self, other: &Vector) -> f64 {
         let (x1, y1) = self.serialize();
         let (x2, y2) = other.serialize();
 
         x1*x2 + y1*y2
     }
 
-    fn cross_produtct(&self, other: &Vector) -> i32 { todo!() }
+    fn cross_produtct(&self, other: &Vector) -> Vector { todo!() }
 }
 
 impl Add for Vector {
