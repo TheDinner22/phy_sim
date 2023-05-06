@@ -55,13 +55,17 @@ impl TwoDObject {
         // update the vel via acc
         self.velocity = self.velocity + self.acceleration * secs_passed;
     }
+
+    pub fn get_pos(&self) -> &Point {
+        &self.position
+    }
 }
 
 // TODO what about an N-dim point?
 #[derive(Default, Clone, Copy, Debug)]
 pub struct Point {
-    x: f64,
-    y: f64,
+    pub x: f64,
+    pub y: f64,
 }
 
 impl Point {
