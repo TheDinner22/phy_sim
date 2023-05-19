@@ -1,7 +1,4 @@
-use std::ops::{Add, Sub, Mul};
-
-mod objects;
-pub mod stopwatch;
+use std::ops::{Add, Mul, Sub};
 
 trait Distance {
     // distance between here and somewhere else
@@ -167,16 +164,5 @@ impl Mul<f64> for Vector {
 
     fn mul(self, rhs: f64) -> Self::Output {
         Vector { terminal: self.terminal * rhs, tip: self.tip * rhs }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
     }
 }
